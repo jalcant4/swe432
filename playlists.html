@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Playlists</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        .gallery {
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+
+        .gallery-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .description {
+            text-align: center;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-input {
+            padding: 5px;
+            width: 300px;
+        }
+
+        .search-button {
+            padding: 5px 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+	<header>
+		<div class="header-top">
+            <a href="index.html"><img src="logo.png" alt="Station Name"></a>
+            <button><img src="playbutton.png"></button>
+        </div>
+	    <nav>
+	        <ul>
+	            <li><a href="#">Shows</a></li>
+	            <li><a href="#">News</a></li>
+	            <li class="dropdown">
+	                <a href="#">DJs</a>
+	                <ul class="dropdown-content">
+	                    <li><a href="#playlists.html">Playlists</a></li>
+	                    <li><a href="#timeslots.html">Time Slots</a></li>
+	                </ul>
+	            </li>
+	            <li class="dropdown">
+	                <a href="#">Producers</a>
+	                <ul class="dropdown-content">
+	                    <li><a href="#">Item 1</a></li>
+	                    <li><a href="#">Item 2</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </nav>
+	</header>
+
+	<div class= "container">
+		<content>
+			<h1>Playlist</h1>
+		    <div class="gallery">
+		        <div class="gallery-item">
+		            <img src="placeholder1.jpg" alt="Image 1">
+		            <p class="description">Play 1</p>
+		        </div>
+		        <div class="gallery-item">
+		            <img src="placeholder2.jpg" alt="Image 2">
+		            <p class="description">Play 2</p>
+		        </div>
+		        <div class="gallery-item">
+		            <img src="placeholder3.jpg" alt="Image 3">
+		            <p class="description">Play 3</p>
+		        </div>
+		        <div class="gallery-item">
+		            <img src="placeholder4.jpg" alt="Image 4">
+		            <p class="description">Play 4</p>
+		        </div>
+		        <div class="gallery-item">
+		            <img src="placeholder5.jpg" alt="Image 5">
+		            <p class="description">Play 5</p>
+		        </div>
+		    </div>
+		    <div class="search-bar">
+		        <!-- Search bar -->
+		        <input type="text" class="search-input" placeholder="Search...">
+		        <button class="search-button">Search</button>
+		    </div>
+		</content>
+
+		<advertisement>
+			<h1>This is the Advertisement section</h1>
+			<p1>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.<p2>
+		</advertisement>
+	</div>
+	
+	<footer>
+		<p class="listen-live">Listen Live</p>
+	    <nav>
+	        <ul>
+	            <li><a href="#">Rock</a></li>
+	            <li><a href="#">Pop</a></li>
+	            <li><a href="#">Hip-Hop</a></li>
+	            <li><a href="#">Latin</a></li>
+	            <li><a href="#">Jazz</a></li>
+	            <li><a href="#">World</a></li>
+	            <li><a href="#">Classical</a></li>
+	            <li><a href="#">Electronic</a></li>
+	        </ul>
+	    </nav>
+	    <button class="back-to-top">Back to the Top</button>
+	</footer>
+
+</body>
+</html>

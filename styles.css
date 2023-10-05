@@ -1,0 +1,148 @@
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the header top block */
+.header-top {
+    display: flex; /* Make the items inside the block horizontal */
+    justify-content: space-between; /* Space the items evenly */
+    align-items: center; /* Vertically center-align the items */
+    height: 80px; /* Set the block's height to 80px */
+}
+
+/* Style the play button */
+header button img {
+    width: 65px; /* Set the width to match the logo's width */
+    height: auto; /* Automatically adjust the height to maintain aspect ratio */
+}
+
+/* Style the navigation bar */
+nav {
+    background-color: #333;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Style navigation items (list items) */
+nav ul {
+    display: flex; /* Make the list items horizontal */
+}
+
+nav li {
+    margin: 0 20px;
+    position: relative; /* Positioning for dropdown */
+}
+
+/* Style links (anchor tags) */
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block; /* Ensure proper alignment with dropdown */
+}
+
+/* Style the footer */
+footer {
+    background-color: #333;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    text-align: center;
+    padding: 10px 0;
+    clear: both;
+}
+
+/* Style the navigation items (list items) */
+footer ul {
+    display: flex;
+    justify-content: center;
+}
+
+footer li {
+    margin: 0 20px;
+}
+
+/* Style links (anchor tags) */
+footer a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+/* Style links on hover */
+footer a:hover {
+    background-color: #666;
+}
+
+/* Style the "Listen Live" text */
+.listen-live {
+    font-size: 14px; /* Adjust the font size */
+}
+
+/* Style the "Back to the Top" button */
+.back-to-top {
+    background-color: #666;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px; /* Add margin to separate from the list */
+    cursor: pointer;
+}
+
+.back-to-top:hover {
+    background-color: #333;
+}
+
+/* Style dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 150px;
+    text-align: left;
+    z-index: 1; /* Ensure it appears above other content */
+    top: 100%; /* Position it below the anchor */
+    left: 0; /* Align it with the anchor's left edge */
+}
+
+/* Style dropdown items (list items inside the dropdown) */
+.dropdown-content li {
+    margin: 0;
+}
+
+/* Show the dropdown content when hovering over the parent list item */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Style dropdown items on hover */
+.dropdown-content li:hover {
+    background-color: #666;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Wrap the content and advertisement sections */
+    justify-content: space-between; /* Create space between the sections */
+}
+
+/* Style the content section */
+content {
+    width: 75%; /* Take up 75% of the container width (left side) */
+    background-color: #f0f0f0; /* Background color for content */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in the width */
+}
+
+/* Style the advertisement section */
+advertisement {
+    width: 24%; /* Take up 24% of the container width (right side) */
+    background-color: #e0e0e0; /* Background color for advertisement */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in the width */
+}
+
