@@ -1,0 +1,122 @@
+
+
+.container {
+  font-family: Arial, sans-serif;
+  width: 90%;
+  height: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#djSelector {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+#songSearch {
+  margin-top: 15px;
+  width: 98%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.search-btn {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+#p1 {
+  width: 98%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+
+.time-slot-container {
+  padding-top: 10px;
+  display: flex;
+  margin-top: 3px;
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+
+
+#btn1 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn2 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn3 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn4 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn5 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn6 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn7 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn8 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn9 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn10 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn11 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn12 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
+#btn13 {
+  height:50px;
+  width: 80px;
+  margin-right: 15px;
+}
