@@ -3,35 +3,55 @@ const data = [
         img: 'beerbongs&bentleys.jpg',
         alt: 'Beerbongs & Bentleys',
         content: 'BeerBongs & Bentleys was released by Post Malone on 2018',
-        timeslots: [],
     },
     {
         img: 'chase_atlantic.jpg',
         alt: 'Chase Atlantic',
         content: 'The eponymous album, Chase Atlantic, was released in 2017',
-        timeslots: [],
     },
     {
         img: 'ICYMI.jpg',
         alt: 'ICYMI',
         content: 'In Case You Missed It, ICYMI, by EDEN was released in 2022',
-        timeslots: [],
     },
     {
         img: 'hypochondriac.jpg',
         alt: 'hypochondriac',
         content: 'hypochondriac by brakence was released in 2022',
-        timeslots: [],
     },
     {
         img: 'overthinker.jpg',
-        alt: 'overthinker',
+        alt: 'Overthinker',
         content: 'Overthinker by INZO was released in 2018',
-        timeslots: [],
     },
 ];
+
+
 /*
-    This code is responsible for timeslots
+    Create a static map of time slots
+    map: timeSlots[day][hour]
+ */
+const timeSlots = [];
+const hours = [
+    '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
+    '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM',
+    '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM'
+];
+const days = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+];
+// initialize each slot as null
+days.forEach((day) => {
+    const slots = [];
+    hours.forEach((hour) => {
+        slots.push(null);
+    });
+    timeSlots.push(slots);
+});
+
+
+/*
+    This code is responsible for creating timeslots
 */
 class TimeSlot {
     constructor(data, day, time) {
@@ -77,17 +97,25 @@ class TimeSlot {
     }
 }
 
-// Create a function to open a menu for data selection
-function openDataSelection(data, button) {
+
+/*
+    Create a function to open a menu for data selection
+ */
+function openDataSelection(data, slot, button) {
     // Create a div element for the menu
     const menuDiv = document.createElement('div');
     menuDiv.className = 'data-selection-menu';
 
-     // Apply CSS styles for the background box
-     menuDiv.style.position = 'absolute';
-     menuDiv.style.background = '#f7f7f7'; // Background color
-     menuDiv.style.border = '1px solid #ccc'; // Border
-     menuDiv.style.padding = '10px'; // Padding
+    // Apply CSS styles for the background box
+    menuDiv.style.position = 'absolute';
+    menuDiv.style.background = '#f7f7f7'; // Background color
+    menuDiv.style.border = '1px solid #ccc'; // Border
+    menuDiv.style.padding = '10px'; // Padding
+
+    // Prevent the menu from closing when clicking inside it
+    menuDiv.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event propagation to the document
+    });
 
     // Create a label for the menu
     const label = document.createElement('label');
@@ -129,6 +157,7 @@ function openDataSelection(data, button) {
 
     // Add an "OK" button to confirm the selection
     const okButton = document.createElement('button');
+    let selectedContent = null;
     okButton.textContent = 'OK';
     okButton.addEventListener('click', () => {
         // Get the selected radio button
@@ -136,8 +165,31 @@ function openDataSelection(data, button) {
         if (selectedRadio) {
             const selectedData = selectedRadio.value;
             const dataIndex = parseInt(selectedData);
-            const selectedContent = (dataIndex >= 0) ? data[dataIndex].content : null;
-            button.dataset.content = selectedContent;
+            selectedContent = (dataIndex >= 0) ? data[dataIndex].content : null;
+
+            /*
+                Check the time slots.
+                1. if selected content is null, set the time slot to a null time slot
+                2. if selected content != null, set the time slot to that object
+             */
+                if (selectedContent == null) {
+                    slot.data = null;
+                    // Update the button with "empty"
+                    button.innerHTML = 'empty';
+                    button.title = 'Available time slot';
+                } else {
+                    slot.data = selectedContent;
+                    // Update the button with the associated image
+                    const img = document.createElement('img');
+                    img.src = data[dataIndex].img;
+                    img.alt = data[dataIndex].alt;
+                    img.style.width = '100px';
+                    img.style.height = 'same-as-width';
+                    // Update the buttons title
+                    button.innerHTML = '';
+                    button.title = data[dataIndex].alt;
+                    button.appendChild(img);
+                }
 
             // Close the menu
             menuDiv.style.display = 'none';
@@ -156,8 +208,6 @@ function openDataSelection(data, button) {
     // Append the menu to the document
     document.body.appendChild(menuDiv);
 
-    // Prevent the click event from propagating to the document, which would close the menu
-    button.addEventListener('click', (e) => e.stopPropagation());
 
     // Add a click event listener to the document to close the menu when clicking outside
     document.addEventListener('click', () => {
@@ -168,6 +218,7 @@ function openDataSelection(data, button) {
     menuDiv.style.display = 'block';
 }
 
+
 /*
     This fixes the document.
  */    
@@ -177,13 +228,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // create the header row
     const headerRow = document.createElement('tr');
-
-    // Create and append table headers for the hourss
-    const hours = [
-        '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM',
-        '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM',
-        '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM'
-    ];
 
     headerRow.innerHTML = '<th class="day"></th>';
     hours.forEach(hour => {
@@ -196,11 +240,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Append the header row to the table
     table.appendChild(headerRow);
 
-    // Create data for the days
-    const days = [
-        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-    ];
-
     // Create rows of buttons for each day
     days.forEach(day => {
         const row = document.createElement('tr');
@@ -211,17 +250,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Create empty time slot cells for each hour
         for (let i = 0; i < hours.length; i++) {
-            const cell = new TimeSlot(null, day, hours[i]).makeElement();
-            cell.className = 'time-slot';
-            const button = cell.querySelector('button');
+            let slot = new TimeSlot(null, day, hours[i]).makeElement();
+            slot.className = 'time-slot';
 
+            /*
+                Initialize the time slots 
+                timeSlots[day][hour]
+             */
+            timeSlots[days.indexOf(day)][hours.indexOf(hours[i])] = slot;
+
+            let button = slot.querySelector('button');
             // Add a click event listener to open the data selection menu
             button.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevent event propagation to the document
-                openDataSelection(data, button);
+                openDataSelection(data, slot, button);
             });
 
-            row.appendChild(cell);
+            row.appendChild(slot);
         }
 
         // Append the row to the table
