@@ -1,4 +1,35 @@
-import {data} from 'data.js';
+const data = [
+    {
+        img: 'beerbongs&bentleys.jpg',
+        alt: 'Beerbongs & Bentleys',
+        content: 'BeerBongs & Bentleys was released by Post Malone on 2018',
+        timeslots: [],
+    },
+    {
+        img: 'chase_atlantic.jpg',
+        alt: 'Chase Atlantic',
+        content: 'The eponymous album, Chase Atlantic, was released in 2017',
+        timeslots: [],
+    },
+    {
+        img: 'ICYMI.jpg',
+        alt: 'ICYMI',
+        content: 'In Case You Missed It, ICYMI, by EDEN was released in 2022',
+        timeslots: [],
+    },
+    {
+        img: 'hypochondriac.jpg',
+        alt: 'hypochondriac',
+        content: 'hypochondriac by brakence was released in 2022',
+        timeslots: [],
+    },
+    {
+        img: 'overthinker.jpg',
+        alt: 'overthinker',
+        content: 'Overthinker by INZO was released in 2018',
+        timeslots: [],
+    },
+];
 
 // DataObj class
 class DataObj {
