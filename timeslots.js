@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
             timeSlots[days.indexOf(day)][hours.indexOf(hours[i])] = slot;
 
             let button = slot.querySelector('button');
+            button.title = 'Available time slot.';
             // Add a click event listener to open the data selection menu
             button.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevent event propagation to the document

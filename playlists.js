@@ -97,15 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         galleryContainer.innerHTML = '';
 
         let searchResults = [];
-        if (searchTerms.includes('AND')) {
-            // If 'AND' is in the search terms, perform an 'AND' operation
-            const andTerms = searchTerm.split(' AND ');
-            andTerms.forEach(term => {
-                term = term.trim().toLowerCase();
-                const andResults = data.filter(item => item.content.toLowerCase().includes(term));
-                searchResults = searchResults.concat(andResults);
-            });
-        } else if (searchTerms.includes('OR')) {
+        if (searchTerms.includes('OR')) {
             // If 'OR' is in the search terms, perform an 'OR' operation
             const orTerms = searchTerm.split(' OR ');
             orTerms.forEach(term => {
