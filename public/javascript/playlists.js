@@ -1,10 +1,36 @@
+let data = null;
+// Function to load data from the API
+function fetchDataFromServer() {
+    fetch('/api/data')
+        .then((response) => response.json())
+        .then((fetchedData) => {
+            data = fetchedData;
+            populateGallery();
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+function populateGallery() {
+    const galleryContainer = document.querySelector('.gallery');
+    galleryContainer.innerHTML = ''; // Clear existing content
+
+    if (data) {
+        data.forEach((itemData) => {
+            const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.timeSlots);
+            galleryContainer.appendChild(dataObj.makeElement());
+        });
+    }
+}
+
 // DataObj class
 class DataObj {
-    constructor(img, alt, content, timeslots) {
+    constructor(img, alt, content, timeSlots) {
         this.img = img;
         this.alt = alt;
         this.content = content;
-        this.timeslots = timeslots;
+        this.timeSlots = timeSlots;
     }
 
     makeMarkup() {
@@ -37,32 +63,10 @@ class DataObj {
 }
 
 const galleryContainer = document.querySelector('.gallery');
-
-// Function to load data from the API
-function loadData() {
-    fetch('/api/data')
-        .then((response) => response.json())
-        .then((data) => {
-            // Loop through the data and create gallery items
-            data.forEach((itemData) => {
-                const dataObj = new DataObj(
-                    itemData.img,
-                    itemData.alt,
-                    itemData.content,
-                    itemData.timeslots // Ensure the property name is correct
-                );
-                galleryContainer.appendChild(dataObj.makeElement());
-            });
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-        });
-}
-
 // This code adds functionality to the search bar and is an example of form validation
 // Wrap the code in an event listener for the 'DOMContentLoaded' event, this is an example of a different event type
 document.addEventListener('DOMContentLoaded', function() {
-    loadData();
+    fetchDataFromServer();
     // Get the search input field and search button
     const searchInput = document.querySelector('.search-input');
     const searchButton = document.querySelector('.search-button');
@@ -93,9 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create and append the gallery items for the search results
         searchResults.forEach(itemData => {
-            const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.date);
+            const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.timeSlots);
             galleryContainer.appendChild(dataObj.makeElement());
         });
+        populateGallery();
     }
 
     // Add a click event listener to the search button
