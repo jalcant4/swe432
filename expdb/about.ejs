@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Page</title>
+</head>
+<body>
+    <h1>About Us</h1>
+    <p>Welcome, <%= username %>!</p>
+    <form action="/setname" method="get">
+        <label for="name">Set Your Name: </label>
+        <input type="text" id="name" name="name">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

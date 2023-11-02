@@ -1,0 +1,27 @@
+{
+  "name": "swe432",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://jalcant4: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@github.com/jalcant4/swe432.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jalcant4/swe432/issues"
+  },
+  "homepage": "https://github.com/jalcant4/swe432#readme",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
