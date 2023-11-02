@@ -74,35 +74,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // nested function that facilitates search
     function search() {
         // Get search terms
-        const searchTerm = searchInput.value;
-        const searchTerms = searchTerm.split(/\s+/);
-
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        if (searchTerm === '') {
+            // If the search term is empty, show all items
+            populateGallery();
+            return;
+        }
+    
         // Clear the current content of the gallery container
         galleryContainer.innerHTML = '';
 
-        let searchResults = [];
-        if (searchTerms.includes('OR')) {
-            // If 'OR' is in the search terms, perform an 'OR' operation
-            const orTerms = searchTerm.split(' OR ');
-            orTerms.forEach(term => {
-                term = term.trim().toLowerCase();
-                const orResults = data.filter(item => item.content.toLowerCase().includes(term));
-                searchResults = searchResults.concat(orResults);
-            });
-        } else {
-            // Regular search without logical operations
-            const lowerSearchTerm = searchTerm.toLowerCase();
-            searchResults = data.filter(item => item.content.toLowerCase().includes(lowerSearchTerm));
-        }
-
+        const searchTerms = searchTerm.split(/\s+/);
+        
+        const searchResults = data.filter(item =>
+            searchTerms.every(term =>
+                item.content.toLowerCase().includes(term)
+            )
+        );
+    
         // Create and append the gallery items for the search results
         searchResults.forEach(itemData => {
             const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.timeSlots);
             galleryContainer.appendChild(dataObj.makeElement());
         });
-        populateGallery();
-    }
-
+    }    
+    
     // Add a click event listener to the search button
     searchButton.addEventListener('click', () => {
         search();
