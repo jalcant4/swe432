@@ -1,16 +1,18 @@
-// Create a function to fetch data from the server
 let data = null;
-function fetchDataFromServer(callback) {
-    fetch('/api/data')
-        .then((response) => response.json())
-        .then((fetchedData) => {
-            data = fetchedData;
-            callback(data);
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-        });
+
+// Function to load data from the API
+async function fetchImagesFromServer() {
+    try {
+        //server endpoint
+        const response = await fetch('/api/images');
+        data = await response.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
+
+// Call fetchImagesFromServer immediately when the script is executed
+fetchImagesFromServer();
 
 /*
     Create a static map of time slots
@@ -50,7 +52,7 @@ class TimeSlot {
 
     makeMarkup() {
         if (this.data != null)
-            return `<td class="time-slot"><button><img src="${this.data.img}" alt="${this.data.alt}"></button></button></td>`;
+            return `<td class="time-slot"><button><img src="${this.data.image}" alt="${this.data.alt}"></button></button></td>`;
         else
             return `<td class="time-slot"><button>empty</button></button></td>`;
     }
@@ -67,7 +69,7 @@ class TimeSlot {
         if (this.data !== null) {
             // Create the <img> element with src and alt attributes
             const img = document.createElement('img');
-            img.src = this.data.img;
+            img.src = this.data.image;
             img.alt = this.data.alt;
 
             // Append the <img> element to the <button>
@@ -89,134 +91,126 @@ class TimeSlot {
     Create a function to open a menu for data selection
  */
 function openDataSelection(data, slot, button) {
-    return new Promise((resolve) => {
-        // Create a div element for the menu
-        const menuDiv = document.createElement('div');
-        menuDiv.className = 'data-selection-menu';
+    // Create a div element for the menu
+    const menuDiv = document.createElement('div');
+    menuDiv.className = 'data-selection-menu';
 
-        // Apply CSS styles for the background box
-        menuDiv.style.position = 'absolute';
-        menuDiv.style.background = '#f7f7f7'; // Background color
-        menuDiv.style.border = '1px solid #ccc'; // Border
-        menuDiv.style.padding = '10px'; // Padding
+    // Apply CSS styles for the background box
+    menuDiv.style.position = 'absolute';
+    menuDiv.style.background = '#f7f7f7'; // Background color
+    menuDiv.style.border = '1px solid #ccc'; // Border
+    menuDiv.style.padding = '10px'; // Padding
 
-        // Prevent the menu from closing when clicking inside it
-        menuDiv.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent event propagation to the document
-        });
+    // Prevent the menu from closing when clicking inside it
+    menuDiv.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event propagation to the document
+    });
 
-        // Create a label for the menu
-        const label = document.createElement('label');
-        label.textContent = 'Select Data:';
+    // Create a label for the menu
+    const label = document.createElement('label');
+    label.textContent = 'Select Data:';
 
-        // Create radio buttons based on your data
-        data.forEach((item, index) => {
-            const radio = document.createElement('input');
-            radio.type = 'radio';
-            radio.name = 'dataSelection';
-            radio.id = `dataOption${index}`;
-            radio.value = index;
+    // Create radio buttons based on your data
+    data.forEach((item, index) => {
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'dataSelection';
+        radio.id = `dataOption${index}`;
+        radio.value = index;
 
-            // Create a label for the radio button
-            const radioLabel = document.createElement('label');
-            radioLabel.textContent = item.alt;
-            radioLabel.htmlFor = `dataOption${index}`;
+        // Create a label for the radio button
+        const radioLabel = document.createElement('label');
+        radioLabel.textContent = item.alt;
+        radioLabel.htmlFor = `dataOption${index}`;
 
-            // Append the radio button and label to the menu
-            menuDiv.appendChild(radio);
-            menuDiv.appendChild(radioLabel);
-        });
+        // Append the radio button and label to the menu
+        menuDiv.appendChild(radio);
+        menuDiv.appendChild(radioLabel);
+    });
 
-        // Create an "Empty" option
-        const emptyRadio = document.createElement('input');
-        emptyRadio.type = 'radio';
-        emptyRadio.name = 'dataSelection';
-        emptyRadio.id = 'emptyOption';
-        emptyRadio.value = -1;
+    // Add an "Empty" option
+    const emptyRadio = document.createElement('input');
+    emptyRadio.type = 'radio';
+    emptyRadio.name = 'dataSelection';
+    emptyRadio.id = 'emptyOption';
+    emptyRadio.value = -1;
 
-        // Create a label for the "Empty" option
-        const emptyLabel = document.createElement('label');
-        emptyLabel.textContent = 'Empty';
-        emptyLabel.htmlFor = 'emptyOption';
+    // Create a label for the "Empty" option
+    const emptyLabel = document.createElement('label');
+    emptyLabel.textContent = 'Empty';
+    emptyLabel.htmlFor = 'emptyOption';
 
-        // Append the "Empty" option and label to the menu
-        menuDiv.appendChild(emptyRadio);
-        menuDiv.appendChild(emptyLabel);
+    // Append the "Empty" option and label to the menu
+    menuDiv.appendChild(emptyRadio);
+    menuDiv.appendChild(emptyLabel);
 
-        // Add an "OK" button to confirm the selection
-        const okButton = document.createElement('button');
-        let selectedContent = null;
-        okButton.textContent = 'OK';
-        okButton.addEventListener('click', () => {
-            // Get the selected radio button
-            const selectedRadio = menuDiv.querySelector('input[name="dataSelection"]:checked');
-            if (selectedRadio) {
-                const selectedData = selectedRadio.value;
-                const dataIndex = parseInt(selectedData);
-                selectedContent = (dataIndex >= 0) ? data[dataIndex].content : null;
+    // Add an "OK" button to confirm the selection
+    const okButton = document.createElement('button');
+    okButton.textContent = 'OK';
+    okButton.addEventListener('click', () => {
+        // Get the selected radio button
+        const selectedRadio = menuDiv.querySelector('input[name="dataSelection"]:checked');
+        if (selectedRadio) {
+            const selectedData = selectedRadio.value;
+            const dataIndex = parseInt(selectedData);
+            selectedContent = (dataIndex >= 0) ? data[dataIndex].content : null;
 
-                /*
-                    Check the time slots.
-                    1. if selected content is null, set the time slot to a null time slot
-                    2. if selected content != null, set the time slot to that object
-                */
-                    if (selectedContent == null) {
-                        slot.data = null;
-                        button.innerHTML = 'empty';
-                        button.title = 'Available time slot';
-                    } else {
-                        slot.data = selectedContent;
-                        const img = document.createElement('img');
-                        img.src = data[dataIndex].img;
-                        img.alt = data[dataIndex].alt;
-                        img.style.width = '50px';
-                        img.style.height = 'same-as-width';
-                        button.innerHTML = '';
-                        button.title = data[dataIndex].alt;
-                        button.appendChild(img);
-                    }
-
-                // Close the menu
-                menuDiv.style.display = 'none';
+            // Check the time slots.
+            if (selectedContent == null) {
+                slot.data = null;
+                button.innerHTML = 'empty';
+                button.title = 'Available time slot';
+            } else {
+                slot.data = selectedContent;
+                const img = document.createElement('img');
+                img.src = data[dataIndex].image;
+                img.alt = data[dataIndex].alt;
+                img.style.width = '50px';
+                img.style.height = 'auto'; // Use 'auto' for responsive height
+                button.innerHTML = '';
+                button.title = data[dataIndex].alt;
+                button.appendChild(img);
             }
-        });
 
-        // Append the "OK" button to the menu
-        menuDiv.appendChild(okButton);
-
-        // Position the menu next to the button
-        const buttonRect = button.getBoundingClientRect();
-        menuDiv.style.position = 'absolute';
-        menuDiv.style.top = `${buttonRect.bottom + window.scrollY}px`;
-        menuDiv.style.left = `${buttonRect.left + window.scrollX}px`;
-
-        // Append the menu to the document
-        document.body.appendChild(menuDiv);
-
-
-        // Add a click event listener to the document to close the menu when clicking outside
-        document.addEventListener('click', () => {
+            // Close the menu
             menuDiv.style.display = 'none';
-        });
+        }
+    });
 
-        // Display the menu
-        menuDiv.style.display = 'block';
-    })
+    // Append the "OK" button to the menu
+    menuDiv.appendChild(okButton);
+
+    // Position the menu next to the button
+    const buttonRect = button.getBoundingClientRect();
+    menuDiv.style.position = 'absolute';
+    menuDiv.style.top = `${buttonRect.bottom + window.scrollY}px`;
+    menuDiv.style.left = `${buttonRect.left + window.scrollX}px`;
+
+    // Append the menu to the document
+    document.body.appendChild(menuDiv);
+
+    // Add a click event listener to the document to close the menu when clicking outside
+    document.addEventListener('click', () => {
+        menuDiv.style.display = 'none';
+    });
+
+    // Display the menu
+    menuDiv.style.display = 'block';
 }
+    
 
 
 /*
     This fixes the document.
  */    
-document.addEventListener('DOMContentLoaded', function () {
-    fetchDataFromServer((fetchedData) => {
-        data = fetchedData
+    document.addEventListener('DOMContentLoaded', async function () {
+        await fetchImagesFromServer(); // Wait for data to be fetched
+    
         // create a table element
         const table = document.createElement('table');
-
+    
         // create the header row
         const headerRow = document.createElement('tr');
-
         headerRow.innerHTML = '<th class="day"></th>';
         hours.forEach(hour => {
             const th = document.createElement('th');
@@ -224,10 +218,10 @@ document.addEventListener('DOMContentLoaded', function () {
             th.textContent = hour;
             headerRow.appendChild(th);
         });
-
+    
         // Append the header row to the table
         table.appendChild(headerRow);
-
+    
         // Create rows of buttons for each day
         days.forEach(day => {
             const row = document.createElement('tr');
@@ -235,41 +229,34 @@ document.addEventListener('DOMContentLoaded', function () {
             dayHeader.className = 'day';
             dayHeader.textContent = day;
             row.appendChild(dayHeader);
-
+    
             // Create empty time slot cells for each hour
             for (let i = 0; i < hours.length; i++) {
                 let slot = new TimeSlot(null, day, hours[i]).makeElement();
                 slot.className = 'time-slot';
-
+    
                 /*
                     Initialize the time slots 
                     timeSlots[day][hour]
                 */
                 timeSlots[days.indexOf(day)][hours.indexOf(hours[i])] = slot;
-
+    
                 let button = slot.querySelector('button');
                 button.title = 'Available time slot.';
                 // Add a click event listener to open the data selection menu
                 button.addEventListener('click', (e) => {
                     e.stopPropagation(); // Prevent event propagation to the document
-                    openDataSelection(data, slot, button).then((selectedTitle) => {
-                        if (selectedTitle == 'empty') {
-                            
-                        } else {
-
-                        }
-                    });
+                    openDataSelection(data, slot, button);
                 });
-
+    
                 row.appendChild(slot);
             }
-
+    
             // Append the row to the table
             table.appendChild(row);
         });
-
+    
         // Append the table to the container
         const container = document.getElementById("table");
         container.appendChild(table);
-    })
-});
+    });

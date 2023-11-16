@@ -1,40 +1,46 @@
 let data = null;
+
 // Function to load data from the API
-function fetchDataFromServer() {
-    fetch('/api/data')
-        .then((response) => response.json())
-        .then((fetchedData) => {
-            data = fetchedData;
-            populateGallery();
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-        });
+async function fetchImagesFromServer() {
+    try {
+        //server endpoint
+        const response = await fetch('/api/images');
+        data = await response.json();
+        populateGallery();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
+// Call fetchImagesFromServer immediately when the script is executed
+fetchImagesFromServer();
+
+// Function to populate the gallery
 function populateGallery() {
     const galleryContainer = document.querySelector('.gallery');
     galleryContainer.innerHTML = ''; // Clear existing content
 
-    if (data) {
+    if (data && data.length > 0) { // Check if data is available and not empty
         data.forEach((itemData) => {
-            const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.timeSlots);
+            // Assuming you have a DataObj class defined somewhere
+            const dataObj = new DataObj(itemData.image, itemData.alt, itemData.content);
             galleryContainer.appendChild(dataObj.makeElement());
         });
+    } else {
+        console.log('No data available.');
     }
 }
 
 // DataObj class
 class DataObj {
-    constructor(img, alt, content, timeSlots) {
-        this.img = img;
+    constructor(image, alt, content) {
+        this.image = image;
         this.alt = alt;
         this.content = content;
-        this.timeSlots = timeSlots;
     }
 
     makeMarkup() {
-        return `<div class="gallery-item"><img src="${this.img}" alt="${this.alt}"><p class="description">${this.content}</p></div>`;
+        return `<div class="gallery-item"><img src="${this.image}" alt="${this.alt}"><p class="description">${this.content}</p></div>`;
     }
 
 
@@ -46,7 +52,7 @@ class DataObj {
 
         // Create the image element
         const image = document.createElement('img');
-        image.src = this.img;
+        image.src = this.image;
         image.alt = this.alt;
 
         // Create the description
@@ -66,7 +72,6 @@ const galleryContainer = document.querySelector('.gallery');
 // This code adds functionality to the search bar and is an example of form validation
 // Wrap the code in an event listener for the 'DOMContentLoaded' event, this is an example of a different event type
 document.addEventListener('DOMContentLoaded', function() {
-    fetchDataFromServer();
     // Get the search input field and search button
     const searchInput = document.querySelector('.search-input');
     const searchButton = document.querySelector('.search-button');
@@ -94,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Create and append the gallery items for the search results
         searchResults.forEach(itemData => {
-            const dataObj = new DataObj(itemData.img, itemData.alt, itemData.content, itemData.timeSlots);
+            const dataObj = new DataObj(itemData.image, itemData.alt, itemData.content);
             galleryContainer.appendChild(dataObj.makeElement());
         });
     }    
